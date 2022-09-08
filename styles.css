@@ -117,9 +117,60 @@ header {
   background-color: rgb(31, 1, 65);
 }
 
-.homes-popup .leaflet-popup-content-wrapper {
+.point-of-interest--popup .leaflet-popup-content-wrapper {
   border-left: 8px solid white;
+  background-color: rgb(0, 0, 97);
 }
-.places-popup .leaflet-popup-content-wrapper {
+.family-and-friends--popup .leaflet-popup-content-wrapper {
   border-left: 8px solid rgb(253, 153, 228);
+}
+/* Pin drop cards */
+.cards__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+}
+.new_place {
+  background-color: rgb(212, 212, 212);
+  border-radius: 5px;
+  color: black;
+  padding: 10px;
+  margin-bottom: 1rem;
+}
+.card__flex-row {
+  display: flex;
+}
+.left-flex {
+  width: 30%;
+  font-weight: 600;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.right-flex {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.point-of-interest--card {
+  border-right: solid 15px rgb(0, 0, 97);
+}
+.family-and-friends--card {
+  border-right: solid 15px rgb(253, 153, 228);
+}
+
+.workout__icon {
+  font-size: 1.8rem;
+  margin-right: 0.2rem;
+  height: 0.28rem;
+}
+
+.workout__value {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.workout__unit {
+  font-size: 1.1rem;
+  color: var(--color-light--1);
+  text-transform: uppercase;
+  font-weight: 800;
 }
