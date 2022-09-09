@@ -5,6 +5,7 @@ const inputType = document.querySelector(".form__input--type");
 const inputDescription = document.querySelector(".form__input--description");
 const cardTitle = document.querySelector(".cards__title");
 const typeOption = document.querySelector(".type_option");
+const sideBar = document.querySelector(".sidebar");
 
 class Place {
   date = new Date();
@@ -37,9 +38,6 @@ class Place {
   }
 }
 
-////////////////////////////////////////////////
-// APP ARCHITECTURE
-
 class App {
   #map;
   #mapEvent;
@@ -47,8 +45,8 @@ class App {
 
   constructor() {
     this._getPosition();
-
     form.addEventListener("submit", this._newPlace.bind(this));
+    sideBar.addEventListener("click", this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -130,7 +128,6 @@ class App {
   }
 
   _renderPlace(place) {
-    console.log(place);
     let html = `
     <div class="new_place ${place.type}--card" data-id="${place.id}">
         <div class="icon">${
@@ -156,6 +153,17 @@ class App {
     `;
     cardTitle.insertAdjacentHTML("afterend", html);
   }
-}
 
+  _moveToPopup(e) {
+    const placeEl = e.target.closest(".new_place");
+    if (!placeEl) return;
+    const place = this.#places.find((place) => place.id === placeEl.dataset.id);
+    this.#map.setView(place.coords, 14, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+  }
+}
 const app = new App();
