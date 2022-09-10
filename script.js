@@ -44,7 +44,13 @@ class App {
   #places = [];
 
   constructor() {
+    // get user's position
     this._getPosition();
+
+    // get data from local storage
+    this._getLocalStorage();
+
+    // attach event handlers
     form.addEventListener("submit", this._newPlace.bind(this));
     sideBar.addEventListener("click", this._moveToPopup.bind(this));
   }
@@ -74,6 +80,11 @@ class App {
     }).addTo(this.#map);
     // Handling clicks on map
     this.#map.on("click", this._showForm.bind(this));
+
+    this.#places.forEach((place) => {
+      this._renderPlace(place);
+      this._renderPlaceMarker(place);
+    });
   }
 
   _showForm(mapE) {
@@ -102,7 +113,20 @@ class App {
     this.#places.push(place);
 
     // render place on map (marker)
-    L.marker([lat, lng])
+    this._renderPlaceMarker(place);
+
+    // // render place on the list
+    this._renderPlace(place);
+
+    // hide the formm + clear input fields
+    this._hideForm();
+
+    // set local storage
+    this._setLocalStorage();
+  }
+
+  _renderPlaceMarker(place) {
+    L.marker(place.coords)
       .addTo(this.#map)
       .bindPopup(
         L.popup({
@@ -110,7 +134,7 @@ class App {
           minWidth: 100,
           autoClose: false,
           closeOnClick: false,
-          className: `${type}--popup`,
+          className: `${place.type}--popup`,
         })
       )
       .setPopupContent(
@@ -119,12 +143,6 @@ class App {
         }`
       )
       .openPopup();
-
-    // // render place on the list
-    this._renderPlace(place);
-
-    // hide the formm + clear input fields
-    this._hideForm();
   }
 
   _renderPlace(place) {
@@ -165,5 +183,17 @@ class App {
       },
     });
   }
+
+  _setLocalStorage() {
+    localStorage.setItem("places", JSON.stringify(this.#places));
+  }
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("places"));
+
+    if (!data) return;
+
+    this.#places = data;
+  }
 }
+
 const app = new App();
